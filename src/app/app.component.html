@@ -1,3 +1,19 @@
 <h1>
-  {{title}}
+  Callcenter App
 </h1>
+
+<md-sidenav>
+ <md-nav-list>
+
+   <a [routerLink]="['caller', undefined]"><i class="material-icons">question_answer</i>Caller</a>
+
+   <a [routerLink]="['representative', undefined]"><i class="material-icons">account_box</i> Representative</a>
+
+   <a [routerLink]="['manager']"><i class="material-icons">supervisor_account</i> Manager</a>
+ </md-nav-list>
+
+
+</md-sidenav>
+<router-outlet>
+</router-outlet>
+
