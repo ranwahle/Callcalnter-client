@@ -5,8 +5,8 @@
 <button *ngIf="isStressTesting" (click)="stopStressTest()">Stop testing your reps</button>
 <div class="list-container">
   <h2>Representatives</h2>
-  <ul *ngIf="reps">
-    <li *ngFor="let rep of reps">
+  <ul *ngIf="representatives">
+    <li *ngFor="let rep of representatives">
       <a [routerLink]="['/representative', rep.name]"> {{rep.name}} </a>
       <span *ngIf="rep.onCall">
       On call with <a [routerLink]="['/caller', rep.onCall.caller.name, rep.onCall.caller.number]"> {{rep.onCall.caller.name}}

@@ -3,6 +3,8 @@ import {QueueManagementService} from "../../services/queue-management.service";
 import {Representative} from "../../classes/Representative";
 import {ActivatedRoute} from "@angular/router";
 import {Caller} from "../../classes/Caller";
+import {AppStore} from "../../app.store";
+import {RepresentativeActionsFactory} from "../../actions/representatives.actions";
 
 @Component({
   selector: 'app-representative-screen',
@@ -13,8 +15,8 @@ export class RepresentativeScreenComponent implements OnInit {
 
   private name: string;
 
-  constructor(private queueManagementService: QueueManagementService,
-              private route: ActivatedRoute) {
+  constructor(private store: AppStore,  private queueManagementService: QueueManagementService,
+              private route: ActivatedRoute, private  representativeActions: RepresentativeActionsFactory) {
   }
 
   private newRepresentative: boolean;
@@ -22,54 +24,49 @@ export class RepresentativeScreenComponent implements OnInit {
   private queue: Caller[];
 
   ngOnInit() {
+    this.queue = this.store.state.callers;
+    this.rep = this.store.state.representatives.currentRepresentative;
+
+    this.store.subscribe(() => {
+      this.queue = this.store.state.callers;
+      this.rep = this.store.state.representatives.currentRepresentative;
+    });
+
     this.route.params.subscribe(params => {
       this.name = params['rep-name'];
       this.newRepresentative = this.name === 'undefined';
       if (this.newRepresentative) {
         this.name = '';
+        this.store.dispatch(this.representativeActions.clearCurrent());
       }
       else {
-        this.queueManagementService.getRepByName(this.name).toPromise().then(rep => {
-            this.rep = rep;
-            if (!this.rep) {
-              this.newRepresentative = true;
-            } else {
-              this.registerOnCallersQueue();
-            }
-          }
-        );
+        this.store.dispatch(this.representativeActions.getRepByName(this.name));
+
       }
+
+
     });
 
 
   }
-   registerOnCallersQueue(){
-    this.queueManagementService.queue$.distinctUntilChanged()
-      .subscribe(queue => this.queue = queue);
-   }
+
 
   register() {
     const rep = new Representative();
     rep.name = this.name;
-    this.queueManagementService.registerRep(rep).toPromise().then(rep => {
-      this.rep = rep;
-      if (rep) {
-        this.newRepresentative = false;
-        this.registerOnCallersQueue();
-      }
-    });
+    this.store.dispatch(this.representativeActions.registerNew(rep));
 
   }
 
   finishCall(){
-    this.queueManagementService.finishCall(this.rep);
+    this.store.dispatch(this.representativeActions.finishCall(this.rep));
   }
 
   takeCall(){
      if (!this.rep) {
        return;
      }
-     this.queueManagementService.startCall(this.rep);
+     this.store.dispatch( this.representativeActions.startCall(this.rep));
   }
 
 }

@@ -3,6 +3,7 @@ import {Caller} from "../classes/Caller";
 import {Representative} from "../classes/Representative";
 import {Call} from "../classes/Call";
 import {Observable} from "rxjs";
+import {AppStore} from "../app.store";
 
 @Injectable()
 export class QueueManagementService {
@@ -16,7 +17,7 @@ export class QueueManagementService {
 
   public representativesChanged: EventEmitter<Representative[]> = new EventEmitter<Representative[]>()
 
-  constructor() {
+  constructor(private store: AppStore ) {
     this.queue = [];
     this.finishedCalls = {};
     this.representatives = [];
@@ -86,19 +87,7 @@ export class QueueManagementService {
     }
   }
 
-  stopStressTest() {
-    this._isStressTest = false;
 
-  }
-
-  startStressTest() {
-    this._isStressTest = true;
-    this.stressTest();
-  }
-
-  get isStressTest$() : Observable<boolean> {
-    return Observable.of(this._isStressTest);
-  }
 
 
   getRepresentatives(): Observable< Representative[]> {

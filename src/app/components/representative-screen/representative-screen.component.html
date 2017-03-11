@@ -8,7 +8,7 @@
 <div *ngIf="rep && queue">
   <h2>Hello {{rep.name}}</h2>
 
-  <div *ngIf="rep && rep.onCall">
+  <div *ngIf="rep && rep.onCall && rep.onCall.caller">
     You are now on call with  <a [routerLink]="['/caller',rep.onCall.caller.name, rep.onCall.caller.number]">
     {{rep.onCall.caller.name}}</a>
     <button (click)="finishCall()" >Finish call
