@@ -1,0 +1,25 @@
+<div *ngIf="!rep">
+  <label>
+    Name:
+    <input [(ngModel)]="name"/>
+  </label>
+  <button (click)="register()">Register</button>
+</div>
+<div *ngIf="rep && queue">
+  <h2>Hello {{rep.name}}</h2>
+
+  <div *ngIf="rep && rep.onCall">
+    You are now on call with  <a [routerLink]="['/caller',rep.onCall.caller.name, rep.onCall.caller.number]">
+    {{rep.onCall.caller.name}}</a>
+    <button (click)="finishCall()" >Finish call
+      <i class="material-icons">settings_phone</i>
+    </button>
+  </div>
+
+  <div>
+    There are {{queue.length}} calls waiting
+    <button *ngIf="queue.length > 0 && !rep.onCall" (click)="takeCall()">
+      <i class="material-icons">settings_phone</i>
+      Take call</button>
+  </div>
+</div>

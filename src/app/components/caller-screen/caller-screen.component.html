@@ -1,0 +1,13 @@
+<div *ngIf="!caller">
+  <label>Name:
+    <input type="text" [(ngModel)]="name"/>
+  </label>
+  <button (click)="register()">Register</button>
+</div>
+
+<div *ngIf="caller && !callingRep" >
+  You are number {{place}} in queue
+</div>
+<div *ngIf="callingRep">
+  You are on call with {{callingRep.name}}
+</div>
