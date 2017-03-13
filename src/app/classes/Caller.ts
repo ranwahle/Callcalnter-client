@@ -3,7 +3,7 @@
  */
 export class Caller {
   name: string;
-  waitingSince: Date;
+  waitingSince?: Date;
   number?: number;
 
 }

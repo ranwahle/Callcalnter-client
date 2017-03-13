@@ -34,12 +34,11 @@ export class ManagerScreenComponent implements OnInit, OnDestroy {
 
     this.store.subscribe(() => {
       this.isStressTesting = this.store.state.isOnTest;
-      this.queue = this.store.state.callers;
+      this.queue = this.store.state.callers.callers;
       this.representatives = this.store.state.representatives.representatives;
     });
 
-    this.store.subscribe(() => this.queue = this.store.state.callers);
-    this.queue = this.store.state.callers;
+    this.queue = this.store.state.callers.callers;
     this.isStressTesting = this.store.state.isOnTest;
     this.representatives = this.store.state.representatives.representatives;
   }

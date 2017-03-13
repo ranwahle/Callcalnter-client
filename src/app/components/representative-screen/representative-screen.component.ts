@@ -24,11 +24,11 @@ export class RepresentativeScreenComponent implements OnInit {
   private queue: Caller[];
 
   ngOnInit() {
-    this.queue = this.store.state.callers;
+    this.queue = this.store.state.callers.callers;
     this.rep = this.store.state.representatives.currentRepresentative;
 
     this.store.subscribe(() => {
-      this.queue = this.store.state.callers;
+      this.queue = this.store.state.callers.callers;
       this.rep = this.store.state.representatives.currentRepresentative;
     });
 

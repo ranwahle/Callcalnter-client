@@ -13,9 +13,15 @@ export class CallerActionsFactory {
 
   static ADD_CALLER = '[Caller actions] ADD Caller';
 
-  public  AddCaller(caller: Caller) : CallerAction {
+  public  addCaller(caller: Caller) : CallerAction {
       return  {type: CallerActionsFactory.ADD_CALLER, caller: caller};
   }
+
+  static FIND_CALLER = '[Caller actions] find caller';
+  public  findCaller(caller: Caller) : CallerAction {
+    return {type: CallerActionsFactory.FIND_CALLER, caller: caller};
+  }
+
 
   static POP_CALLER = '[Callerr actions] pop caller';
 

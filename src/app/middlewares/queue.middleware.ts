@@ -25,7 +25,7 @@ export class QueueMiddleware {
 
       window.setTimeout(() => this.addCaller(store), 1000);
       let testCaller = this.createTestCaller();
-      store.dispatch(this.callerActions.AddCaller(testCaller));
+      store.dispatch(this.callerActions.addCaller(testCaller));
     }
   }
 
@@ -44,11 +44,11 @@ export class QueueMiddleware {
     } else if (action.type === RepresentativeActionsFactory.START_CALL) {
       let representative: Representative = action.representative;
       let call = new Call();
-      call.caller = Object.assign({}, store.getState().callers[0]);
+      call.caller = Object.assign({}, store.getState().callers.callers[0]);
+      call.callStart = new Date();
       representative.onCall = call;
       store.dispatch({type: RepresentativeActionsFactory.REGISTER_CALL, representative: representative});
       return next({type: CallerActionsFactory.POP_CALLER});
-      //return next({type: CallerActionsFactory.POP_CALLER })
 
     }
 

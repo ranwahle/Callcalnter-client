@@ -3,6 +3,8 @@ import {QueueManagementService} from "../../services/queue-management.service";
 import {Caller} from "../../classes/Caller";
 import {ActivatedRoute} from "@angular/router";
 import {Representative} from "../../classes/Representative";
+import {AppStore} from "../../app.store";
+import {CallerActionsFactory} from "../../actions/caller.actions";
 
 @Component({
   selector: 'app-caller-screen',
@@ -15,44 +17,35 @@ export class CallerScreenComponent implements OnInit {
   private caller: Caller;
 
   constructor(private queueManagementService: QueueManagementService,
-              private route: ActivatedRoute) {
+              private route: ActivatedRoute, private store: AppStore, private callerActions: CallerActionsFactory) {
   }
 
   private place: number;
   private callingRep: Representative;
 
+  getDetailsFromStore(){
+    this.caller = this.store.state.callers.currentCaller;
+    this.findIndex(this.store.state.callers.callers);
+  }
 
   ngOnInit() {
+    this.getDetailsFromStore();
+    this.store.subscribe(() => this.getDetailsFromStore());
+
     this.route.params.subscribe(param => {
-      this.queueManagementService.findCallerByNameAndNumber(param['caller-name'], +param['caller-number'])
-        .toPromise().then(caller => {
-        this.caller = caller;
-        this.queueManagementService.queue$.subscribe(
-          queue => this.findIndex(queue)
-        );
-        //   this.getCallerRep();
-        //this.findIndex(this.queueManagementService.queue$());
-      });
+
+      const caller: Caller = {name: param['caller-name'], number: +param['caller-number']};
+      this.store.dispatch(this.callerActions.findCaller(caller));
+
+
     });
 
-    this.queueManagementService.queue$.distinctUntilChanged().subscribe(
-      queue => {
-        if (this.caller) {
-          this.findIndex(queue)
-        }
-      }
-    );
+
 
 
   }
 
-  getCallerRep() {
-    this.queueManagementService.findRepByCaller(this.caller).toPromise()
-      .then(rep => {
-        this.callingRep = rep;
 
-      });
-  }
 
   findIndex(queue: Caller[]) {
     if (!this.caller) {
@@ -63,8 +56,6 @@ export class CallerScreenComponent implements OnInit {
     caller.name === this.caller.name && caller.number === this.caller.number);
     if (index >= 0) {
       this.place = index + 1;
-    } else {
-      this.getCallerRep();
     }
 
   }
@@ -72,11 +63,9 @@ export class CallerScreenComponent implements OnInit {
   register() {
     const caller: Caller = new Caller();
     caller.name = this.name;
-    this.queueManagementService.registerCaller(caller).toPromise()
-      .then(caller => {
-          this.caller = caller;
-        }
-      );
+    this.store.dispatch(this.callerActions.addCaller(caller));
+    this.store.dispatch(this.callerActions.findCaller(caller));
+
   }
 
 }
