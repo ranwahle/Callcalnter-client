@@ -3,7 +3,7 @@ import {Caller} from "../classes/Caller";
 import {Representative} from "../classes/Representative";
 import {Call} from "../classes/Call";
 import {Observable} from "rxjs";
-import {AppStore} from "../app.store";
+// import {AppStore} from "../app.store";
 
 @Injectable()
 export class QueueManagementService {
@@ -17,7 +17,7 @@ export class QueueManagementService {
 
   public representativesChanged: EventEmitter<Representative[]> = new EventEmitter<Representative[]>()
 
-  constructor(private store: AppStore ) {
+  constructor() {
     this.queue = [];
     this.finishedCalls = {};
     this.representatives = [];

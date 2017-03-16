@@ -3,8 +3,8 @@ import {QueueManagementService} from "../../services/queue-management.service";
 import {Caller} from "../../classes/Caller";
 import {ActivatedRoute} from "@angular/router";
 import {Representative} from "../../classes/Representative";
-import {AppStore} from "../../app.store";
-import {CallerActionsFactory} from "../../actions/caller.actions";
+// import {AppStore} from "../../app.store";
+// import {CallerActionsFactory} from "../../actions/caller.actions";
 
 @Component({
   selector: 'app-caller-screen',
@@ -17,25 +17,25 @@ export class CallerScreenComponent implements OnInit {
   private caller: Caller;
 
   constructor(private queueManagementService: QueueManagementService,
-              private route: ActivatedRoute, private store: AppStore, private callerActions: CallerActionsFactory) {
+              private route: ActivatedRoute) {
   }
 
   private place: number;
   private callingRep: Representative;
 
   getDetailsFromStore(){
-    this.caller = this.store.state.callers.currentCaller;
-    this.findIndex(this.store.state.callers.callers);
+    // this.caller = this.store.state.callers.currentCaller;
+    // this.findIndex(this.store.state.callers.callers);
   }
 
   ngOnInit() {
     this.getDetailsFromStore();
-    this.store.subscribe(() => this.getDetailsFromStore());
+    // this.store.subscribe(() => this.getDetailsFromStore());
 
     this.route.params.subscribe(param => {
 
       const caller: Caller = {name: param['caller-name'], number: +param['caller-number']};
-      this.store.dispatch(this.callerActions.findCaller(caller));
+      // this.store.dispatch(this.callerActions.findCaller(caller));
 
 
     });
@@ -63,8 +63,8 @@ export class CallerScreenComponent implements OnInit {
   register() {
     const caller: Caller = new Caller();
     caller.name = this.name;
-    this.store.dispatch(this.callerActions.addCaller(caller));
-    this.store.dispatch(this.callerActions.findCaller(caller));
+    // this.store.dispatch(this.callerActions.addCaller(caller));
+    // this.store.dispatch(this.callerActions.findCaller(caller));
 
   }
 

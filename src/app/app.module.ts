@@ -13,8 +13,8 @@ import {MaterialModule} from "@angular/material";
 import 'hammerjs';
 import {QueueManagementService} from "./services/queue-management.service";
 import {UserService} from "./services/user.service";
-import {AppStore} from "./app.store";
-import {APP_ACTIONS} from "./actions/app.actions";
+// import {AppStore} from "./app.store";
+// import {APP_ACTIONS} from "./actions/app.actions";
 import {APP_MIDDLEWARES} from "./middlewares/app.middlewares";
 
 @NgModule({
@@ -31,7 +31,7 @@ import {APP_MIDDLEWARES} from "./middlewares/app.middlewares";
     RouterModule.forRoot(appRoutes),
     MaterialModule.forRoot(),
   ],
-  providers: [QueueManagementService, UserService, AppStore, ...APP_ACTIONS, ...APP_MIDDLEWARES],
+  providers: [QueueManagementService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
