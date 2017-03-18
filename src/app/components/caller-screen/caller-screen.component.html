@@ -5,9 +5,10 @@
   <button (click)="register()">Register</button>
 </div>
 
-<div *ngIf="caller && !callingRep" >
+<div *ngIf="caller && !callingRep">
+  Hello {{caller.name}}
   You are number {{place}} in queue
 </div>
 <div *ngIf="callingRep">
-  You are on call with {{callingRep.name}}
+  You are on call with <a [routerLink]="['/representative', callingRep.name]">{{callingRep.name}} </a>
 </div>

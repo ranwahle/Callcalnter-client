@@ -12,10 +12,6 @@ import {appRoutes} from "./app.routes";
 import {MaterialModule} from "@angular/material";
 import 'hammerjs';
 import {QueueManagementService} from "./services/queue-management.service";
-import {UserService} from "./services/user.service";
-// import {AppStore} from "./app.store";
-// import {APP_ACTIONS} from "./actions/app.actions";
-import {APP_MIDDLEWARES} from "./middlewares/app.middlewares";
 
 @NgModule({
   declarations: [

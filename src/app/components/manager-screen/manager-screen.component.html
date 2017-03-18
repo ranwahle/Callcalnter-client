@@ -1,8 +1,8 @@
 <h2>
   Callcenter manager
 </h2>
-<button *ngIf="!isStressTesting" (click)="startStressTest()">Start testing your reps</button>
-<button *ngIf="isStressTesting" (click)="stopStressTest()">Stop testing your reps</button>
+<button *ngIf="!appState.isOnTest" (click)="startStressTest()">Start testing your reps</button>
+<button *ngIf="appState.isOnTest" (click)="stopStressTest()">Stop testing your reps</button>
 <div class="list-container">
   <h2>Representatives</h2>
   <ul *ngIf="representatives">

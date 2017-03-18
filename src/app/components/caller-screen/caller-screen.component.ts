@@ -3,8 +3,7 @@ import {QueueManagementService} from "../../services/queue-management.service";
 import {Caller} from "../../classes/Caller";
 import {ActivatedRoute} from "@angular/router";
 import {Representative} from "../../classes/Representative";
-// import {AppStore} from "../../app.store";
-// import {CallerActionsFactory} from "../../actions/caller.actions";
+import {appState} from "../../state/app.state";
 
 @Component({
   selector: 'app-caller-screen',
@@ -14,58 +13,52 @@ import {Representative} from "../../classes/Representative";
 export class CallerScreenComponent implements OnInit {
 
   private name: string;
-  private caller: Caller;
+  get caller(): Caller {
+    return appState.callers.currentCaller;
+  }
+
+  get place() : number {
+    return this.caller ?  appState.callers.callers.indexOf(this.caller) + 1
+      : 0;
+  }
 
   constructor(private queueManagementService: QueueManagementService,
               private route: ActivatedRoute) {
   }
 
-  private place: number;
-  private callingRep: Representative;
 
-  getDetailsFromStore(){
-    // this.caller = this.store.state.callers.currentCaller;
-    // this.findIndex(this.store.state.callers.callers);
+  get callingRep(): Representative {
+    let representatives = appState.representatives.representatives;
+
+    return representatives.find(rep => rep.onCall && rep.onCall.caller === this.caller);
   }
 
+
+
   ngOnInit() {
-    this.getDetailsFromStore();
-    // this.store.subscribe(() => this.getDetailsFromStore());
 
     this.route.params.subscribe(param => {
 
-      const caller: Caller = {name: param['caller-name'], number: +param['caller-number']};
-      // this.store.dispatch(this.callerActions.findCaller(caller));
+      const foundCaller: Caller = appState.callers.callers.find(caller => caller.name === param['caller-name']
+      && caller.number === +param['caller-number']);
+
+
+      appState.callers.currentCaller = foundCaller || null;
 
 
     });
 
 
-
-
   }
 
 
 
-  findIndex(queue: Caller[]) {
-    if (!this.caller) {
-      return;
-    }
-
-    const index = queue.findIndex(caller =>
-    caller.name === this.caller.name && caller.number === this.caller.number);
-    if (index >= 0) {
-      this.place = index + 1;
-    }
-
-  }
 
   register() {
     const caller: Caller = new Caller();
     caller.name = this.name;
-    // this.store.dispatch(this.callerActions.addCaller(caller));
-    // this.store.dispatch(this.callerActions.findCaller(caller));
-
+    this.queueManagementService.addCaller(caller);
+    appState.callers.currentCaller = caller;
   }
 
 }

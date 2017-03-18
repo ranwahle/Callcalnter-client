@@ -3,7 +3,7 @@ import {QueueManagementService} from "../../services/queue-management.service";
 import {Representative} from "../../classes/Representative";
 import {ActivatedRoute} from "@angular/router";
 import {Caller} from "../../classes/Caller";
-// import {AppStore} from "../../app.store";
+import {appState} from "../../state/app.state";
 
 @Component({
   selector: 'app-representative-screen',
@@ -14,31 +14,32 @@ export class RepresentativeScreenComponent implements OnInit {
 
   private name: string;
 
-  constructor(  private queueManagementService: QueueManagementService,
+  constructor(private queueManagementService: QueueManagementService,
               private route: ActivatedRoute) {
   }
 
   private newRepresentative: boolean;
-  private rep: Representative;
-  private queue: Caller[];
+
+  private get rep(): Representative {
+    return appState.representatives.currentRepresentative;
+  }
+
+  private get  queue(): Caller[] {
+    return appState.callers.callers;
+  }
 
   ngOnInit() {
-    // this.queue = this.store.state.callers.callers;
-    // this.rep = this.store.state.representatives.currentRepresentative;
-
-    // this.store.subscribe(() => {
-    //   this.queue = this.store.state.callers.callers;
-    //   this.rep = this.store.state.representatives.currentRepresentative;
-    // });
 
     this.route.params.subscribe(params => {
       this.name = params['rep-name'];
       this.newRepresentative = this.name === 'undefined';
       if (this.newRepresentative) {
         this.name = '';
-        //this.store.dispatch(this.representativeActions.clearCurrent());
+        appState.representatives.currentRepresentative = null;
       }
       else {
+        appState.representatives.currentRepresentative =
+          appState.representatives.representatives.find(rep => rep.name === this.name);
         //this.store.dispatch(this.representativeActions.getRepByName(this.name));
 
       }
@@ -53,19 +54,25 @@ export class RepresentativeScreenComponent implements OnInit {
   register() {
     const rep = new Representative();
     rep.name = this.name;
+    appState.representatives.representatives.push(rep);
+    appState.representatives.currentRepresentative = rep;
     // this.store.dispatch(this.representativeActions.registerNew(rep));
 
   }
 
-  finishCall(){
+  finishCall() {
+    appState.finishCall(this.rep);//.rep.onCall = null;
     // this.store.dispatch(this.representativeActions.finishCall(this.rep));
   }
 
-  takeCall(){
-     if (!this.rep) {
-       return;
-     }
-     // this.store.dispatch( this.representativeActions.startCall(this.rep));
+  takeCall() {
+    if (!this.rep) {
+      return;
+    }
+    appState.startCall(this.rep);
+
+
+    // this.store.dispatch( this.representativeActions.startCall(this.rep));
   }
 
 }
