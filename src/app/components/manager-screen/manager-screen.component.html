@@ -1,8 +1,8 @@
 <h2>
   Callcenter manager
 </h2>
-<button *ngIf="!isStressTesting" (click)="startStressTest()">Start testing your reps</button>
-<button *ngIf="isStressTesting" (click)="stopStressTest()">Stop testing your reps</button>
+<button *ngIf="!isStressTesting" (click)="startStressTest()">Start adding callers</button>
+<button *ngIf="isStressTesting" (click)="stopStressTest()">Stopadding callers</button>
 <div class="list-container">
   <h2>Representatives</h2>
   <ul *ngIf="reps">
@@ -11,7 +11,7 @@
       <span *ngIf="rep.onCall">
       On call with <a [routerLink]="['/caller', rep.onCall.caller.name, rep.onCall.caller.number]"> {{rep.onCall.caller.name}}
       </a>
-      Since {{rep.onCall.callStart}}
+      Since {{rep.onCall.callStart  | date:'HH:mm:ss'}}
     </span>
     </li>
   </ul>
@@ -22,7 +22,7 @@
   <ul *ngIf="queue">
     <li *ngFor="let caller of queue">
       <a [routerLink]="['/caller', caller.name, caller.number]">{{caller.name}}</a>
-      Waiting since {{caller.waitingSince}}
+      Waiting since {{caller.waitingSince | date:'HH:mm:ss'}}
     </li>
   </ul>
 </div>
