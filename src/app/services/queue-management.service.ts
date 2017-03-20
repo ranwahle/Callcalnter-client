@@ -88,13 +88,13 @@ export class QueueManagementService {
     }
   }
 
-  stopStressTest() {
+  stopAutomaticCallersAddition() {
     this._isStressTest = false;
     this.autumaticCallersAddChanged.emit(this._isStressTest);
 
   }
 
-  startStressTest() {
+  startAutomaticCallersAddition() {
     this._isStressTest = true;
     this.stressTest();
     this.autumaticCallersAddChanged.emit(this._isStressTest);

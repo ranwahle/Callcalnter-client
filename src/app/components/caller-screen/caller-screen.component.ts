@@ -35,7 +35,7 @@ export class CallerScreenComponent implements OnInit {
       });
     });
 
-    this.queueManagementService.queue$.distinctUntilChanged().subscribe(
+    this.queueManagementService.queue$.subscribe(
       queue => {
         if (this.caller) {
           this.findIndex(queue)
@@ -75,6 +75,7 @@ export class CallerScreenComponent implements OnInit {
     this.queueManagementService.registerCaller(caller).toPromise()
       .then(caller => {
           this.caller = caller;
+          
         }
       );
   }

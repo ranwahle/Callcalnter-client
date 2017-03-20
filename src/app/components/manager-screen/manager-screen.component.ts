@@ -8,7 +8,7 @@ import {Caller} from "../../classes/Caller";
   templateUrl: './manager-screen.component.html',
   styleUrls: ['./manager-screen.component.css']
 })
-export class ManagerScreenComponent implements OnInit, OnDestroy {
+export class ManagerScreenComponent implements OnInit {
 
   private reps: Representative[];
   private queue: Caller[];
@@ -18,9 +18,6 @@ export class ManagerScreenComponent implements OnInit, OnDestroy {
 
   }
 
-  ngOnDestroy() {
- //   this.isStressTesting = false;
-  }
 
   ngOnInit() {
     this.queueManagementService.getRepresentatives().subscribe(reps => this.reps = reps);
@@ -42,11 +39,11 @@ export class ManagerScreenComponent implements OnInit, OnDestroy {
 
 
   stopStressTest(){
-    this.queueManagementService.stopStressTest();
+    this.queueManagementService.stopAutomaticCallersAddition();
   }
 
   startStressTest(){
-    this.queueManagementService.startStressTest();
+    this.queueManagementService.startAutomaticCallersAddition();
   }
 
 }
