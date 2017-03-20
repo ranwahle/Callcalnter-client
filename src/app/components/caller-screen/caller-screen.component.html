@@ -9,5 +9,5 @@
   You are number {{place}} in queue
 </div>
 <div *ngIf="callingRep">
-  You are on call with <a [routerLink]="['/representative', rep.name]"> {{callingRep.name}}</a>
+  You are on call with <a [routerLink]="['/representative', callingRep.name]"> {{callingRep.name}}</a>
 </div>

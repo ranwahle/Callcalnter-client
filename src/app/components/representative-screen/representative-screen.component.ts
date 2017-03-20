@@ -29,7 +29,7 @@ export class RepresentativeScreenComponent implements OnInit {
         this.name = '';
       }
       else {
-        this.queueManagementService.getRepByName(this.name).toPromise().then(rep => {
+        this.queueManagementService.getRepByName(this.name).subscribe(rep => {
             this.rep = rep;
             if (!this.rep) {
               this.newRepresentative = true;

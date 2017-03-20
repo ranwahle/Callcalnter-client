@@ -164,11 +164,10 @@ export class QueueManagementService {
   }
 
   getRepByName(name: string): Observable<Representative> {
-    return Observable.create(observer => {
-      let rep = this.representatives.find(rep => rep.name === name);
-      observer.next(rep);
-      observer.complete();
-    });
+
+    let rep = this.representatives.find(rep => rep.name === name);
+    return Observable.of(rep);
+
   }
 
 
