@@ -24,8 +24,8 @@ export class CallerScreenComponent implements OnInit {
   private callingRep: Representative;
 
   getDetailsFromStore(){
-    this.caller = this.store.state.callers.currentCaller;
-    this.findIndex(this.store.state.callers.callers);
+    this.caller = this.store.state.callersState.currentCaller;
+    this.findIndex(this.store.state.callersState.callers);
   }
 
   ngOnInit() {

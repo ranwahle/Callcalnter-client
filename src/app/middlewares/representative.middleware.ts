@@ -12,7 +12,7 @@ export class RepresentativeMiddleware {
 
   buildRepresentativeObject(store: AppStore, repResentative: Representative) : Representative {
     let repName: string = repResentative.name;
-    let rep = store.state.representatives.representatives.find(rep => rep.name === repName);
+    let rep = store.state.representativesState.representatives.find(rep => rep.name === repName);
 
     if (!rep) {
         return repResentative;
@@ -35,7 +35,7 @@ export class RepresentativeMiddleware {
   middleware = store => next => (action: RepresentativeAction) => {
 
     if (action.type === RepresentativeActionsFactory.GET_REP_BY_NAME) {
-      const representative = store.getState().representatives.representatives.find(rep => rep.name === action.representative.name);
+      const representative = store.getState().representativesState.representatives.find(rep => rep.name === action.representative.name);
 
       if (representative) {
         return next( {type: RepresentativeActionsFactory.GET_REP_BY_NAME_RESULT,

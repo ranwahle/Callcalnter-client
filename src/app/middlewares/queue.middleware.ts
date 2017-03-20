@@ -44,7 +44,7 @@ export class QueueMiddleware {
     } else if (action.type === RepresentativeActionsFactory.START_CALL) {
       let representative: Representative = action.representative;
       let call = new Call();
-      call.caller = Object.assign({}, store.getState().callers.callers[0]);
+      call.caller = Object.assign({}, store.getState().callersState.callers[0]);
       call.callStart = new Date();
       representative.onCall = call;
       store.dispatch({type: RepresentativeActionsFactory.REGISTER_CALL, representative: representative});

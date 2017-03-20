@@ -7,13 +7,13 @@ import {isOnTestReducer} from "./repsTest.reducer";
  */
 
 export interface AppState {
-    callers: CallersState;
-    representatives: representativeState;
+    callersState: CallersState;
+    representativesState: representativeState;
     isOnTest: boolean;
 }
 
-export const rootReducer : Reducer<any> = combineReducers({
-  callers: callersReducer,
-  representatives: representativeReducer,
+export const rootReducer : Reducer<AppState> = combineReducers<AppState>({
+  callersState: callersReducer,
+  representativesState: representativeReducer,
   isOnTest: isOnTestReducer
 });

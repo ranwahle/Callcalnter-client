@@ -10,7 +10,7 @@ import {RepsTestActionsFactory} from "../../actions/repTests.actions";
   templateUrl: './manager-screen.component.html',
   styleUrls: ['./manager-screen.component.css']
 })
-export class ManagerScreenComponent implements OnInit, OnDestroy {
+export class ManagerScreenComponent implements OnInit {
 
   private reps: Representative[];
   private queue: Caller[];
@@ -22,25 +22,18 @@ export class ManagerScreenComponent implements OnInit, OnDestroy {
 
   }
 
-  ngOnDestroy() {
- //   this.isStressTesting = false;
-  }
-
   ngOnInit() {
-    // this.queueManagementService.getRepresentatives().subscribe(reps => this.reps = reps);
-    // this.queueManagementService.representativesChanged.subscribe(
-    //   reps => this.reps = reps
-    // );
+
 
     this.store.subscribe(() => {
       this.isStressTesting = this.store.state.isOnTest;
-      this.queue = this.store.state.callers.callers;
-      this.representatives = this.store.state.representatives.representatives;
+      this.queue = this.store.state.callersState.callers;
+      this.representatives = this.store.state.representativesState.representatives;
     });
 
-    this.queue = this.store.state.callers.callers;
+    this.queue = this.store.state.callersState.callers;
     this.isStressTesting = this.store.state.isOnTest;
-    this.representatives = this.store.state.representatives.representatives;
+    this.representatives = this.store.state.representativesState.representatives;
   }
 
 
