@@ -14,6 +14,8 @@ export class QueueManagementService {
 
   public callRegistered: EventEmitter<Representative> = new EventEmitter<Representative>();
 
+  public autumaticCallersAddChanged: EventEmitter<boolean> = new EventEmitter<boolean>();
+
   public representativesChanged: EventEmitter<Representative[]> = new EventEmitter<Representative[]>()
 
   constructor() {
@@ -88,21 +90,19 @@ export class QueueManagementService {
 
   stopStressTest() {
     this._isStressTest = false;
+    this.autumaticCallersAddChanged.emit(this._isStressTest);
 
   }
 
   startStressTest() {
     this._isStressTest = true;
     this.stressTest();
-  }
-
-  get isStressTest$() : Observable<boolean> {
-    return Observable.of(this._isStressTest);
+    this.autumaticCallersAddChanged.emit(this._isStressTest);
   }
 
 
   getRepresentatives(): Observable< Representative[]> {
-    return Observable.of( Object.assign([], this.representatives));
+    return Observable.of(Object.assign([], this.representatives));
   }
 
   findCaller(callerName: string, callerNumber: number) {
@@ -156,7 +156,7 @@ export class QueueManagementService {
     return Observable.create(observer => {
       rep.name = this.setRepName(rep.name);
       this.representatives.push(rep);
-      this.representativesChanged.emit(Object.assign([] , this.representatives));
+      this.representativesChanged.emit(Object.assign([], this.representatives));
       observer.next(rep);
       observer.complete();
     });
@@ -172,7 +172,7 @@ export class QueueManagementService {
   }
 
 
-  get queue$() : Observable<Caller[]> {
+  get queue$(): Observable<Caller[]> {
     return Observable.of(this.queue);
   }
 

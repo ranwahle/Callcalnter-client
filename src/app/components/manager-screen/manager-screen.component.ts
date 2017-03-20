@@ -28,7 +28,7 @@ export class ManagerScreenComponent implements OnInit, OnDestroy {
       reps => this.reps = reps
     );
 
-    this.queueManagementService.isStressTest$.distinctUntilChanged().subscribe(result => {
+    this.queueManagementService.autumaticCallersAddChanged.distinctUntilChanged().subscribe(result => {
       this.isStressTesting = result;
     })
 
@@ -42,7 +42,7 @@ export class ManagerScreenComponent implements OnInit, OnDestroy {
 
 
   stopStressTest(){
-    this.queueManagementService.stopStressTest();//  = false;
+    this.queueManagementService.stopStressTest();
   }
 
   startStressTest(){
